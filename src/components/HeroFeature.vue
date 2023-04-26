@@ -1,6 +1,6 @@
 <template>
     <div class="hero_main">
-        <img src="https://via.placeholder.com/1920X700" alt="" class="img_hero">
+        <img src="@/assets/poster.svg" alt="" class="img_hero">
         <div class="hero_text">
             <h1>Hero Movie</h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod Lorem ipsum dolor sit amet
