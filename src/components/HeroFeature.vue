@@ -1,5 +1,5 @@
 <template>
-    <div class="hero_main" data-test-id="heroFeature-main">
+    <div class="hero_main">
         <img src="https://via.placeholder.com/1920X700" alt="" class="img_hero">
         <div class="hero_text">
             <h1>Hero Movie</h1>
