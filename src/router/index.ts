@@ -1,7 +1,7 @@
 import IndexScreenVue from '@/pages/IndexScreen.vue';
 import { createRouter, createWebHistory } from 'vue-router';
-import LoginScreen from '../views/LoginScreen.vue';
-import MovieDetails from '../views/MovieDetails.vue';
+import LoginScreen from '../pages/LoginScreen.vue';
+import MovieDetails from '../pages/MovieDetails.vue';
 
 const isAuthenticated = () => localStorage.getItem('authenticated') === 'true'
 

@@ -14,10 +14,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-    name: 'HeroFeature',
-    setup() {
-        return {};
-    },
+    name: 'HeroFeature'
 });
 
 </script>
