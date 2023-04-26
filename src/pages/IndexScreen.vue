@@ -1,19 +1,14 @@
 <template>
-    <div>
-        <HeroFeature />
-        <SearchBar @searchMovie="searchMovies($event)" />
-        <div class="search_result">
-            <p>Search Result:</p>
-        </div>
-        <div v-if="isLoading" class="loader">
-            ...loading
-        </div>
-        <div v-else-if="movies.length === 0" class="no_results">
-            <p>No results found</p>
-        </div>
-        <div class="section_card" v-else>
-            <MovieCard v-for="movie of movies" :key="movie.imdbID" :movie="movie" @click="goToMovieDetails(movie.imdbID)" />
-        </div>
+    <HeroFeature />
+    <SearchBar @searchMovie="searchMovies($event)" />
+    <div class="search_result">
+        <p>Search Result:</p>
+    </div>
+    <div v-if="movies.length === 0" class="no_results">
+        <p>No results found</p>
+    </div>
+    <div class="section_card">
+        <MovieCard v-for="movie of movies" :key="movie.imdbID" :movie="movie" @click="goToMovieDetails(movie.imdbID)" />
     </div>
 </template>
   
@@ -31,34 +26,31 @@ export default defineComponent({
     components: {
         MovieCard,
         HeroFeature,
-        SearchBar,
+        SearchBar
     },
     data() {
         return {
             movies: [] as MovieProps[],
-            isLoading: true,
-        };
+        }
     },
     methods: {
         async searchMovies(searchTerm: string, pageNumber: number = 1) {
             const moviesResponse = await getMovieList(searchTerm, pageNumber);
             this.movies = moviesResponse as MovieProps[];
-            this.isLoading = false;
         },
         goToMovieDetails(movieId: string) {
             router.push({ name: 'MovieDetails', params: { imdbID: movieId } });
-        },
+        }
     },
     created() {
-        setTimeout(() => {
-            this.searchMovies('movie');
-        }, 1000);
+        this.searchMovies('movie');
     },
-});
+})
+
 </script>
-  
-<style scoped lang="scss">
-@import '@/styles/variables';
+
+<styles lang='scss'>
+@import "@/styles/variables";
 
 .no_results {
     display: flex;
@@ -98,5 +90,4 @@ export default defineComponent({
     max-width: 80vw;
     gap: 3rem 5rem;
 }
-</style>
-  
+</styles>
