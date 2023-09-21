@@ -1,26 +1,25 @@
 <template>
-    <div class="login-form">
-      <form @submit.prevent="login">
-        <h2>Iniciar sesión</h2>
-        <div class="form-group">
-          <label >Email:</label>
-          <input type="mail" id="email" placeholder="example@mail.com" v-model="email" />
-        </div>
-        <div class="form-group">
-          <label for="password">Contraseña:</label>
-          <input type="password" id="password" v-model="password" />
-        </div>
-        <div class="form-group">
-          <button type="submit">Sign up</button>
-        </div>
-        <div v-if="error" class="error">{{ error }}</div>
-      </form>
-    </div>
-  </template>
-  
+  <div class="login-form">
+    <form @submit.prevent="login">
+      <h2>Iniciar sesión</h2>
+      <div class="form-group">
+        <label>Email:</label>
+        <input type="email" id="email" placeholder="example@mail.com" v-model="email" />
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" v-model="password" />
+      </div>
+      <div class="form-group">
+        <button type="submit">Iniciar sesión</button>
+      </div>
+      <div v-if="error" class="error">{{ error }}</div>
+    </form>
+  </div>
+</template>
 
-<script lang='ts'>
-import { defineComponent } from 'vue'
+<script>
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   data() {
@@ -28,24 +27,29 @@ export default defineComponent({
       email: '',
       password: '',
       error: ''
+    };
+  },
+  created() {
+    const isAuthenticated = localStorage.getItem('authenticated');
+    if (isAuthenticated === 'true') {
+      this.$router.push('/home');
     }
   },
   methods: {
-    login(): void {
-
+    login() {
       if (this.email === 'example@mail.com' && this.password === '1234') {
-        localStorage.setItem('authenticated', 'true')
-        this.$router.push('/home')
+        localStorage.setItem('authenticated', 'true');
+        this.$router.push('/home');
       } else {
-        this.error = 'Credenciales inválidas.'
+        this.error = 'Credenciales inválidas.';
       }
     }
   }
-})
+});
 </script>
 
-<style lang="scss">
 
+<style lang="scss">
 @import "@/styles/variables.scss";
 
 .login-form {
@@ -71,9 +75,9 @@ export default defineComponent({
     background-color: $color-white;
 
     h2 {
-    font-size: 24px;
-    margin-bottom: 1rem;
-    font-weight: medium;
+      font-size: 24px;
+      margin-bottom: 1rem;
+      font-weight: medium;
     }
 
     .form-group {
@@ -96,14 +100,14 @@ export default defineComponent({
         padding-left: 0.5rem;
         height: 40px;
 
-        &::placeholder{
-            color: $color-gray;
+        &::placeholder {
+          color: $color-gray;
         }
 
         &:hover {
           border: 1px solid $color-2;
         }
-        
+
         &:focus {
           border: 1px solid $color-1;
           outline: none;
@@ -136,6 +140,4 @@ export default defineComponent({
     }
   }
 }
-
-
 </style>

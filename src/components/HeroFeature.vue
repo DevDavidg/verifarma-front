@@ -1,25 +1,30 @@
 <template>
     <div class="hero_main">
-        <img src="@/assets/poster.svg" alt="" class="img_hero">
+        <img src="@/assets/poster.svg" alt="Movie Poster" class="img_hero" />
         <div class="hero_text">
-            <h1>Hero Movie</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Quisquam, quod. </p>
-            <button><img src="@/assets/button.svg" alt=""><span>Watch trailer</span></button>
+            <h1>Jhon Wick</h1>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+                quod.
+            </p>
+            <a href="https://github.com/DevDavidg" class="trailer-link">
+                <button>
+                    <img src="@/assets/button.svg" alt="Play Icon" />
+                    <span>Watch trailer</span>
+                </button>
+            </a>
         </div>
     </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-    name: 'HeroFeature'
-});
-
+  
+<script>
+export default {
+    name: 'HeroFeature',
+};
 </script>
-
-<style lang="scss">
+  
+<style scoped lang="scss">
 @import '@/styles/variables';
 
 .hero_main {
@@ -45,33 +50,38 @@ export default defineComponent({
         }
 
         p {
-            font-size: .9rem;
+            font-size: 0.9rem;
         }
 
-        button {
-            display: flex;
-            padding: 0.5rem;
-            border-radius: 6px;
-            background: $color-1;
-            border: none;
-            color: $color-white;
-            font-size: 1rem;
-            font-weight: 700;
-            margin-top: 1rem;
-            text-transform: uppercase;
-            align-items: center;
-            cursor: pointer;
-            gap: 0.5rem;
-            transition: .1s;
+        .trailer-link {
+            text-decoration: none;
 
-            &:active {
-                transform: scale(.95);
-            }
+            button {
+                display: flex;
+                padding: 0.5rem;
+                border-radius: 6px;
+                background: $color-1;
+                border: none;
+                color: $color-white;
+                font-size: 1rem;
+                font-weight: 700;
+                margin-top: 1rem;
+                text-transform: uppercase;
+                align-items: center;
+                cursor: pointer;
+                gap: 0.5rem;
+                transition: 0.1s;
 
-            img {
-                width: 1.5rem;
+                &:active {
+                    transform: scale(0.95);
+                }
+
+                img {
+                    width: 1.5rem;
+                }
             }
         }
     }
 }
 </style>
+  

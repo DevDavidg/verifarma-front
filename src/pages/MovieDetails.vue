@@ -1,81 +1,29 @@
 <template>
+  <a :href="`/`" class="backButton">
+    Back
+  </a>
   <div class="movie_details">
     <div class="movie_details__container">
       <div class="movie_details__container__poster">
-        <img :src="(
-          movie?.Poster === undefined || movie?.Poster === 'N/A'
-            ? 'https://via.placeholder.com/300x480'
-            : movie?.Poster
-        )" alt="movie poster" />
+        <img :src="getValidPosterUrl(movie?.Poster)" alt="movie poster" />
       </div>
       <div class="movie_details__container__info">
-        <h1>{{ 
-          movie?.Title === undefined || movie?.Title === 'N/A'
-            ? 'Loading title...'
-            : movie?.Title
-          }}</h1>
-        <p>{{ 
-          movie?.Year === undefined || movie?.Year === 'N/A'
-            ? 'Loading year...'
-            : movie?.Year
-        }}</p>
-        <p>{{
-          movie?.Genre === undefined || movie?.Genre === 'N/A'
-            ? 'Loading genre...'
-            : movie?.Genre
-          }}</p>
-        <p>
-          {{ movie?.Plot === undefined || movie?.Plot === 'N/A'
-            ? 'Loading plot...'
-            : movie?.Plot }}
-        </p>
-        <p>{{ 'Code:' + ' ' + (movie?.imdbID === undefined || movie?.imdbID === 'N/A'
-          ? 'Loading code...'
-          : movie?.imdbID) }}</p>
-        <p>{{ (
-          movie?.imdbRating === undefined || movie?.imdbRating === 'N/A'
-            ? 'Loading rating...'
-            : movie?.imdbRating) + '/10' }}</p>
-        <p>{{ (
-          movie?.imdbVotes === undefined || movie?.imdbVotes === 'N/A'
-            ? 'Loading votes...'
-            : movie?.imdbVotes) + ' ' + 'votes' }}</p>
-        <p>{{ (
-          movie?.Runtime === undefined || movie?.Runtime === 'N/A'
-            ? 'Loading runtime...'
-            : movie?.Runtime) + ' ' + 'minutes' }}</p>
-        <p>{{ (
-          movie?.Director === undefined || movie?.Director === 'N/A'
-            ? 'Loading director...'
-            : movie?.Director) + ' ' + 'is the director' }}</p>
-        <p>{{ (
-          movie?.Actors === undefined || movie?.Actors === 'N/A'
-            ? 'Loading actors...'
-            : movie?.Actors) + ' ' + 'are the actors' }}</p>
-        <p>{{ (
-          movie?.Language === undefined || movie?.Language === 'N/A'
-            ? 'Loading language...'
-            : movie?.Language) + ' ' + 'is the language' }}</p>
-        <p>{{ (
-          movie?.Country === undefined || movie?.Country === 'N/A'
-            ? 'Loading country...'
-            : movie?.Country) + ' ' + 'is the country' }}</p>
-        <p>{{ (
-          movie?.Awards === undefined || movie?.Awards === 'N/A'
-            ? 'Loading awards...'
-            : movie?.Awards) + ' ' + 'are the awards' }}</p>
-        <p>{{ (
-          movie?.BoxOffice === undefined || movie?.BoxOffice === 'N/A'
-            ? 'Loading box office...'
-            : movie?.BoxOffice) + ' ' + 'is the box office' }}</p>
-        <p>{{ (
-          movie?.Production === undefined || movie?.Production === 'N/A'
-            ? 'No Data Found for Production'
-            : movie?.Production) }}</p>
-        <p>{{ (
-          movie?.Website === undefined || movie?.Website === 'N/A'
-            ? ''
-            : movie?.Website) }}</p>
+        <h1>{{ getValidValue(movie?.Title) }}</h1>
+        <p>{{ getValidValue(movie?.Year) }}</p>
+        <p>{{ getValidValue(movie?.Genre) }}</p>
+        <p>{{ getValidValue(movie?.Plot) }}</p>
+        <p>{{ 'Code: ' + getValidValue(movie?.imdbID) }}</p>
+        <p>{{ getValidValue(movie?.imdbRating) + '/10' }}</p>
+        <p>{{ getValidValue(movie?.imdbVotes) + ' votes' }}</p>
+        <p>{{ getValidValue(movie?.Runtime) + ' minutes' }}</p>
+        <p>{{ getValidValue(movie?.Director) + ' is the director' }}</p>
+        <p>{{ getValidValue(movie?.Actors) + ' are the actors' }}</p>
+        <p>{{ getValidValue(movie?.Language) + ' is the language' }}</p>
+        <p>{{ getValidValue(movie?.Country) + ' is the country' }}</p>
+        <p>{{ getValidValue(movie?.Awards) + ' are the awards' }}</p>
+        <p>{{ getValidValue(movie?.BoxOffice) + ' is the box office' }}</p>
+        <p>{{ getValidValue(movie?.Production, 'No Data Found for Production') }}</p>
+        <p>{{ getValidValue(movie?.Website, 'No Data Found for Website') }}</p>
       </div>
     </div>
   </div>
@@ -95,7 +43,7 @@ export default defineComponent({
   },
 
   setup() {
-    const movie = ref<MovieProps>();
+    const movie = ref<MovieProps | null>(null);
     const movieId = router.currentRoute.value.params.imdbID;
     const id = typeof movieId === 'string' ? movieId : movieId[0];
 
@@ -104,10 +52,19 @@ export default defineComponent({
       movie.value = movieResponse;
     };
 
-    return { movie, fetchMovieDetails };
+    const getValidPosterUrl = (url: string | undefined): string => {
+      return url && url !== 'N/A' ? url : 'https://via.placeholder.com/300x480';
+    };
+
+    const getValidValue = (value: string | undefined, fallback: string = 'No results'): string => {
+      return value && value !== 'N/A' ? value : fallback;
+    };
+
+    return { movie, fetchMovieDetails, getValidPosterUrl, getValidValue };
   },
 });
 </script>
+
 
 <style lang="scss">
 .movie_details {
@@ -161,6 +118,35 @@ export default defineComponent({
         font-size: 0.9rem;
         font-weight: 400;
         margin-bottom: 1rem;
+      }
+    }
+  }
+}
+
+.backButton {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.1s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .movie_details {
+    &__container {
+      flex-direction: column;
+
+      &__info {
+        width: 100%;
+        height: 50%;
       }
     }
   }
